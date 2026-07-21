@@ -1,0 +1,86 @@
+{
+  "overview:deployment:process": {
+    "question": "Con quale processo viene deployato il progetto (org di destinazione, CI/CD, ordine core → addon dei manifest)? Il repo contiene i manifest ma nessuna pipeline.",
+    "answer": "viene deployato tramite package xml",
+    "source_doc": "01-overview.md",
+    "resolved_at": "2026-07-21"
+  },
+  "overview:project:volume": {
+    "question": "Quali volumi sono attesi (numero di survey attivi, risposte/anno)? Il dato non è derivabile dal repo e incide su OWD, reporting e limiti (`MAX_GRAPH_NODES = 500` domande per survey è l'unico limite codificato).",
+    "answer": "inseriamo i limiti nella documentazione",
+    "source_doc": "01-overview.md",
+    "resolved_at": "2026-07-21"
+  },
+  "overview:project:status": {
+    "question": "Qual è lo stato di adozione attuale (in produzione? in quale org)? `docs/design.md` è datato come \"pronto per inizio sviluppi\" e il codice risulta completo rispetto a quel design, tranne i punti aperti elencati in §5.",
+    "answer": "nessuna org di produzione al momento ha questo",
+    "source_doc": "01-overview.md",
+    "resolved_at": "2026-07-21"
+  },
+  "overview:project:open-design-items": {
+    "question": "I punti non implementati (validazione regex in authoring, anti-doppia compilazione, anteprima, localizzazione) sono roadmap attiva o sono stati deprioritizzati?",
+    "answer": "Dobbiamo inserirli in roadmap",
+    "source_doc": "01-overview.md",
+    "resolved_at": "2026-07-21"
+  },
+  "data-model:Survey__c.Start_Question__c:business-rule": {
+    "question": "la descrizione del campo dice che l'obbligatorietà per i survey Active è \"enforced by validation rule and at runtime\", ma **nel repo non esiste alcuna validation rule**. La regola esiste solo in org (non versionata) o è rimasta sulla carta? Oggi l'unica protezione è l'eccezione a runtime in `SurveyService`.",
+    "answer": "inseriamo la validation",
+    "source_doc": "02-data-model.md",
+    "resolved_at": "2026-07-21"
+  },
+  "data-model:Survey__c.Version__c:business-rule": {
+    "question": "chi aggiorna `Version__c` e con quale criterio (manuale a ogni modifica sostanziale? convenzione di formato)? Il repo non contiene automazione né convenzioni al riguardo.",
+    "answer": "inseriamo l'automazione",
+    "source_doc": "02-data-model.md",
+    "resolved_at": "2026-07-21"
+  },
+  "data-model:Survey_Response__c:entity-fields": {
+    "question": "quali entità aggiuntive sono previste oltre ad Account e Contact? Il design cita `Case__c` come esempio ma il campo non esiste nel repo.",
+    "answer": "deve essere la qualunque",
+    "source_doc": "02-data-model.md",
+    "resolved_at": "2026-07-21"
+  },
+  "security:Survey_Response__c:owd": {
+    "question": "l'OWD Public Read/Write su `Survey_Response__c` (e quindi sulle `Question_Response__c` figlie) è una scelta consapevole — cioè le risposte non sono considerate dati riservati — o va ristretto (es. Private con condivisione a ruoli/queue di chi analizza i dati)?",
+    "answer": "per il momento lasciamo così",
+    "source_doc": "03-security-sharing.md",
+    "resolved_at": "2026-07-21"
+  },
+  "security:Survey__c:external-owd": {
+    "question": "gli OWD esterni Read/Write su `Survey__c`, `Question__c` e `Survey_Response__c` sono voluti in previsione di un futuro uso in Experience Cloud, o sono un residuo da restringere?",
+    "answer": "sono un residuo",
+    "source_doc": "03-security-sharing.md",
+    "resolved_at": "2026-07-21"
+  },
+  "security:Survey_Respondent:persona": {
+    "question": "a quali utenti/profili viene assegnato `Survey_Respondent` (tutta l'org? specifici team)? E l'assegnazione è manuale o automatizzata fuori repo?",
+    "answer": "viene gestito tutto tramite permission set",
+    "source_doc": "03-security-sharing.md",
+    "resolved_at": "2026-07-21"
+  },
+  "automation:Survey__c:activation-guard": {
+    "question": "è previsto (in roadmap o in org, fuori repo) un enforcement alla pubblicazione — es. validation rule o azione che blocchi `Status__c = Active` se il grafo non è valido o manca lo start? Oggi la validazione è solo su richiesta manuale dell'author.",
+    "answer": "fatto già",
+    "source_doc": "04-automation.md",
+    "resolved_at": "2026-07-21"
+  },
+  "automation:SurveyService:double-submission": {
+    "question": "la protezione anti-doppia-compilazione (design §8, \"da decidere\") va implementata? Se sì, con quale criterio di unicità (utente+survey, entità+survey, ...)?",
+    "answer": "mettiamo in roadmap",
+    "source_doc": "04-automation.md",
+    "resolved_at": "2026-07-21"
+  },
+  "apex:surveyRunner:placement": {
+    "question": "in quali pagine/processi reali viene inserito `surveyRunner` (record page di quali oggetti, con quali mapping)? Nel repo non esiste alcuna FlexiPage che lo contenga, quindi il posizionamento avviene direttamente in org.",
+    "answer": "sisi direttamente in org",
+    "source_doc": "05-apex-components.md",
+    "resolved_at": "2026-07-21"
+  },
+  "integrations:project:analytics": {
+    "question": "dove vivono gli asset CRM Analytics (recipe/dashboard) previsti dal design — in un altro repo, o non ancora realizzati?",
+    "answer": "no qui non consideriamo tutto questo è outofscope per questo progetto",
+    "source_doc": "06-integrations.md",
+    "resolved_at": "2026-07-21"
+  }
+}

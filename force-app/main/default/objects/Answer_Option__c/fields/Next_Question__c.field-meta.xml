@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Next_Question__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The graph edge: the question the respondent is routed to after picking this option. Empty = terminal branch (end of survey, show theme closing message).</description>
+    <externalId>false</externalId>
+    <label>Next Question</label>
+    <referenceTo>Question__c</referenceTo>
+    <relationshipLabel>Incoming Edges</relationshipLabel>
+    <relationshipName>Incoming_Edges</relationshipName>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

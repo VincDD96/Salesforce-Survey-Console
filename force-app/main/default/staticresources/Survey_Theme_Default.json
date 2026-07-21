@@ -1,0 +1,25 @@
+{
+    "tokens": {
+        "primary": "#0070d2",
+        "background": "#f4f6f9",
+        "surface": "#ffffff",
+        "text": "#16325c",
+        "muted": "#54698d",
+        "error": "#c23934",
+        "radius": "8px",
+        "fontFamily": "'Salesforce Sans', Arial, sans-serif"
+    },
+    "logoUrl": null,
+    "title": "Questionario",
+    "intro": "Rispondi alle seguenti domande. La compilazione richiede pochi minuti.",
+    "closingMessage": "Grazie! Le tue risposte sono state salvate.",
+    "labels": {
+        "next": "Avanti",
+        "back": "Indietro",
+        "submit": "Invia"
+    },
+    "layout": {
+        "showProgressBar": true,
+        "onePerScreen": true
+    }
+}

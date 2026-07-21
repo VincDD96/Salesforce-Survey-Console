@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Start_Question__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The starting node of the survey graph. Mandatory for an Active survey (enforced by validation rule and at runtime).</description>
+    <externalId>false</externalId>
+    <label>Start Question</label>
+    <referenceTo>Question__c</referenceTo>
+    <relationshipLabel>Surveys Starting Here</relationshipLabel>
+    <relationshipName>Surveys_Starting_Here</relationshipName>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+    Survey Author (add-on) — editor a grafo, app dedicata, permission set Admin.
+    DIPENDENZA: il package "core" (manifest/core.xml) DEVE essere gi&#224; installato
+    sull'org. Survey_Admin referenzia oggetti/campi/Apex del core; Survey_Console
+    referenzia i tab del core.
+
+    Deploy:
+        sf project deploy start --manifest manifest/addon.xml --target-org <alias> --wait 30
+-->
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+
+    <!-- Authoring LWC -->
+    <types>
+        <members>surveyAuthor</members>
+        <name>LightningComponentBundle</name>
+    </types>
+
+    <!-- Lightning App Page che ospita il componente -->
+    <types>
+        <members>Survey_Author_Page</members>
+        <name>FlexiPage</name>
+    </types>
+
+    <!-- Tab che punta alla FlexiPage -->
+    <types>
+        <members>Survey_Author</members>
+        <name>CustomTab</name>
+    </types>
+
+    <!-- App Lightning con tutti i tab gi&#224; ordinati -->
+    <types>
+        <members>Survey_Console</members>
+        <name>CustomApplication</name>
+    </types>
+
+    <!-- Permission Set: admin/author -->
+    <types>
+        <members>Survey_Admin</members>
+        <name>PermissionSet</name>
+    </types>
+
+    <version>66.0</version>
+</Package>

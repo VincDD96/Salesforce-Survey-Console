@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+
+    <!-- Custom Objects -->
+    <types>
+        <members>Answer_Option__c</members>
+        <members>Question__c</members>
+        <members>Question_Response__c</members>
+        <members>Survey__c</members>
+        <members>Survey_Response__c</members>
+        <name>CustomObject</name>
+    </types>
+
+    <!-- Custom Fields (explicit; required for some deploy scenarios) -->
+    <types>
+        <members>Answer_Option__c.Allows_Free_Text__c</members>
+        <members>Answer_Option__c.Free_Text_Error_Message__c</members>
+        <members>Answer_Option__c.Free_Text_Regex__c</members>
+        <members>Answer_Option__c.Next_Question__c</members>
+        <members>Answer_Option__c.Option_Text__c</members>
+        <members>Answer_Option__c.Order__c</members>
+        <members>Answer_Option__c.Question__c</members>
+        <members>Question__c.Default_Next_Question__c</members>
+        <members>Question__c.Editor_X__c</members>
+        <members>Question__c.Editor_Y__c</members>
+        <members>Question__c.Is_Required__c</members>
+        <members>Question__c.Order__c</members>
+        <members>Question__c.Placeholder__c</members>
+        <members>Question__c.Question_Text__c</members>
+        <members>Question__c.Survey__c</members>
+        <members>Question__c.Type__c</members>
+        <members>Question__c.Validation_Error_Message__c</members>
+        <members>Question__c.Validation_Regex__c</members>
+        <members>Question_Response__c.Answer_Text_Snapshot__c</members>
+        <members>Question_Response__c.Free_Text_Value__c</members>
+        <members>Question_Response__c.Question__c</members>
+        <members>Question_Response__c.Question_Text_Snapshot__c</members>
+        <members>Question_Response__c.Selected_Option__c</members>
+        <members>Question_Response__c.Survey_Name_Snapshot__c</members>
+        <members>Question_Response__c.Survey_Response__c</members>
+        <members>Question_Response__c.Survey_Version_Snapshot__c</members>
+        <members>Survey__c.Description__c</members>
+        <members>Survey__c.Start_Question__c</members>
+        <members>Survey__c.Status__c</members>
+        <members>Survey__c.Theme_Static_Resource__c</members>
+        <members>Survey__c.Version__c</members>
+        <members>Survey_Response__c.Account__c</members>
+        <members>Survey_Response__c.Completed_Date__c</members>
+        <members>Survey_Response__c.Contact__c</members>
+        <members>Survey_Response__c.Submitted_By__c</members>
+        <members>Survey_Response__c.Survey__c</members>
+        <name>CustomField</name>
+    </types>
+
+    <!-- Apex Classes -->
+    <types>
+        <members>SurveyController</members>
+        <members>SurveyService</members>
+        <members>SurveyServiceTest</members>
+        <name>ApexClass</name>
+    </types>
+
+    <!-- Lightning Web Components -->
+    <types>
+        <members>surveyAuthor</members>
+        <members>surveyRunner</members>
+        <name>LightningComponentBundle</name>
+    </types>
+
+    <!-- Static Resources (theme JSON) -->
+    <types>
+        <members>Survey_Theme_Christmas</members>
+        <members>Survey_Theme_Default</members>
+        <name>StaticResource</name>
+    </types>
+
+    <!-- Permission Sets -->
+    <types>
+        <members>Survey_Admin</members>
+        <members>Survey_Respondent</members>
+        <name>PermissionSet</name>
+    </types>
+
+    <!-- Tabs -->
+    <types>
+        <members>Survey__c</members>
+        <members>Question__c</members>
+        <members>Answer_Option__c</members>
+        <members>Survey_Response__c</members>
+        <members>Question_Response__c</members>
+        <members>Survey_Author</members>
+        <name>CustomTab</name>
+    </types>
+
+    <!-- Page Layouts -->
+    <types>
+        <members>Survey__c-Survey Layout</members>
+        <members>Question__c-Question Layout</members>
+        <members>Answer_Option__c-Answer Option Layout</members>
+        <members>Survey_Response__c-Survey Response Layout</members>
+        <members>Question_Response__c-Question Response Layout</members>
+        <name>Layout</name>
+    </types>
+
+    <!-- FlexiPages (Lightning App Pages) -->
+    <types>
+        <members>Survey_Author_Page</members>
+        <name>FlexiPage</name>
+    </types>
+
+    <!-- Custom Application -->
+    <types>
+        <members>Survey_Console</members>
+        <name>CustomApplication</name>
+    </types>
+
+    <version>66.0</version>
+</Package>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Permissions for end-users who only compile and submit surveys. Read-only on the configuration objects; create+read on the response objects.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Survey Respondent</label>
+    <license>Salesforce</license>
+
+    <classAccesses>
+        <apexClass>SurveyController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+
+    <tabSettings>
+        <tab>Survey_Response__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Question_Response__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+
+    <objectPermissions>
+        <object>Survey__c</object>
+        <allowCreate>false</allowCreate>
+        <allowRead>true</allowRead>
+        <allowEdit>false</allowEdit>
+        <allowDelete>false</allowDelete>
+        <viewAllRecords>false</viewAllRecords>
+        <modifyAllRecords>false</modifyAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <object>Question__c</object>
+        <allowCreate>false</allowCreate>
+        <allowRead>true</allowRead>
+        <allowEdit>false</allowEdit>
+        <allowDelete>false</allowDelete>
+        <viewAllRecords>false</viewAllRecords>
+        <modifyAllRecords>false</modifyAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <object>Answer_Option__c</object>
+        <allowCreate>false</allowCreate>
+        <allowRead>true</allowRead>
+        <allowEdit>false</allowEdit>
+        <allowDelete>false</allowDelete>
+        <viewAllRecords>false</viewAllRecords>
+        <modifyAllRecords>false</modifyAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <object>Survey_Response__c</object>
+        <allowCreate>true</allowCreate>
+        <allowRead>true</allowRead>
+        <allowEdit>false</allowEdit>
+        <allowDelete>false</allowDelete>
+        <viewAllRecords>false</viewAllRecords>
+        <modifyAllRecords>false</modifyAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <object>Question_Response__c</object>
+        <allowCreate>true</allowCreate>
+        <allowRead>true</allowRead>
+        <allowEdit>false</allowEdit>
+        <allowDelete>false</allowDelete>
+        <viewAllRecords>false</viewAllRecords>
+        <modifyAllRecords>false</modifyAllRecords>
+    </objectPermissions>
+
+    <fieldPermissions><field>Survey__c.Description__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Survey__c.Start_Question__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Survey__c.Theme_Static_Resource__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Survey__c.Version__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+
+    <fieldPermissions><field>Question__c.Question_Text__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Question__c.Order__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Question__c.Is_Required__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Question__c.Validation_Regex__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Question__c.Validation_Error_Message__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Question__c.Placeholder__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Question__c.Default_Next_Question__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Question__c.Editor_X__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Question__c.Editor_Y__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+
+    <fieldPermissions><field>Answer_Option__c.Order__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Answer_Option__c.Next_Question__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Answer_Option__c.Allows_Free_Text__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Answer_Option__c.Free_Text_Regex__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Answer_Option__c.Free_Text_Error_Message__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+
+    <fieldPermissions><field>Survey_Response__c.Completed_Date__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Survey_Response__c.Submitted_By__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Survey_Response__c.Account__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Survey_Response__c.Contact__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+
+    <fieldPermissions><field>Question_Response__c.Question__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Question_Response__c.Selected_Option__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Question_Response__c.Free_Text_Value__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Question_Response__c.Question_Text_Snapshot__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Question_Response__c.Answer_Text_Snapshot__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Question_Response__c.Survey_Name_Snapshot__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Question_Response__c.Survey_Version_Snapshot__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+</PermissionSet>

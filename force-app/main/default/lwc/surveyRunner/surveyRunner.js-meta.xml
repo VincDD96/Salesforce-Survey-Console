@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>66.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Survey Runner</masterLabel>
+    <description>Renders a conditional survey and submits the response in a single DML.</description>
+    <targets>
+        <target>lightning__AppPage</target>
+        <target>lightning__RecordPage</target>
+        <target>lightning__HomePage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__AppPage,lightning__RecordPage,lightning__HomePage">
+            <property
+                name="surveyName"
+                type="String"
+                label="Survey Name"
+                description="API name of the Survey__c record to render. Must be Active." />
+            <property
+                name="entityMapping"
+                type="String"
+                label="Entity Mapping JSON"
+                description='JSON of {Survey_Response field API name -> record Id}, e.g. {"Account__c":"001..."}.' />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>
