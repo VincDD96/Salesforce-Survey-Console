@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <!--
     Survey Runtime (base) — il minimo per somministrare e tracciare i questionari.
     Nessuna dipendenza esterna. Deploy:
@@ -48,7 +48,6 @@
         <members>Survey__c.Description__c</members>
         <members>Survey__c.Start_Question__c</members>
         <members>Survey__c.Status__c</members>
-        <members>Survey__c.Theme_Static_Resource__c</members>
         <members>Survey__c.Version__c</members>
         <members>Survey_Response__c.Account__c</members>
         <members>Survey_Response__c.Completed_Date__c</members>
@@ -72,12 +71,6 @@
         <name>LightningComponentBundle</name>
     </types>
 
-    <!-- Static Resources (theme JSON) -->
-    <types>
-        <members>Survey_Theme_Christmas</members>
-        <members>Survey_Theme_Default</members>
-        <name>StaticResource</name>
-    </types>
 
     <!-- Permission Set: compilatore -->
     <types>

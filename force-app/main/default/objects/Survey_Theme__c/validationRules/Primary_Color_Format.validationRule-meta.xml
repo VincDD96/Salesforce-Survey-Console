@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Primary_Color_Format</fullName>
+    <active>true</active>
+    <description>Primary Color must be a hex color like #A1B2C3.</description>
+    <errorConditionFormula
+  >AND(NOT(ISBLANK(Primary_Color__c)), NOT(REGEX(Primary_Color__c, "#[0-9A-Fa-f]{6}")))</errorConditionFormula>
+    <errorDisplayField>Primary_Color__c</errorDisplayField>
+    <errorMessage
+  >Inserire un colore esadecimale nel formato #RRGGBB (es. #0070D2).</errorMessage>
+</ValidationRule>

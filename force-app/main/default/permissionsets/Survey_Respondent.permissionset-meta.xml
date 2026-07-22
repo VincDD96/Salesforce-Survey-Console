@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
-    <description>Permissions for end-users who only compile and submit surveys. Read-only on the configuration objects; create+read on the response objects.</description>
+    <description
+  >Permissions for end-users who only compile and submit surveys. Read-only on the configuration objects; create+read on the response objects.</description>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Survey Respondent</label>
     <license>Salesforce</license>
@@ -47,6 +48,15 @@
         <modifyAllRecords>false</modifyAllRecords>
     </objectPermissions>
     <objectPermissions>
+        <object>Survey_Theme__c</object>
+        <allowCreate>false</allowCreate>
+        <allowRead>true</allowRead>
+        <allowEdit>false</allowEdit>
+        <allowDelete>false</allowDelete>
+        <viewAllRecords>false</viewAllRecords>
+        <modifyAllRecords>false</modifyAllRecords>
+    </objectPermissions>
+    <objectPermissions>
         <object>Survey_Response__c</object>
         <allowCreate>true</allowCreate>
         <allowRead>true</allowRead>
@@ -65,37 +75,113 @@
         <modifyAllRecords>false</modifyAllRecords>
     </objectPermissions>
 
-    <fieldPermissions><field>Survey__c.Description__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
-    <fieldPermissions><field>Survey__c.Start_Question__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
-    <fieldPermissions><field>Survey__c.Theme_Static_Resource__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
-    <fieldPermissions><field>Survey__c.Version__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Survey__c.Description__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Survey__c.Start_Question__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Survey__c.Theme__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Survey__c.Version__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Survey__c.Display_Title__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Survey__c.Intro_Text__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Survey__c.Closing_Message__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Survey__c.Next_Label__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Survey__c.Back_Label__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Survey__c.Submit_Label__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
 
-    <fieldPermissions><field>Question__c.Question_Text__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
-    <fieldPermissions><field>Question__c.Order__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
-    <fieldPermissions><field>Question__c.Is_Required__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
-    <fieldPermissions><field>Question__c.Validation_Regex__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
-    <fieldPermissions><field>Question__c.Validation_Error_Message__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
-    <fieldPermissions><field>Question__c.Placeholder__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
-    <fieldPermissions><field>Question__c.Default_Next_Question__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
-    <fieldPermissions><field>Question__c.Editor_X__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
-    <fieldPermissions><field>Question__c.Editor_Y__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Survey_Theme__c.Primary_Color__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field
+    >Survey_Theme__c.Background_Color__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Survey_Theme__c.Surface_Color__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Survey_Theme__c.Text_Color__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Survey_Theme__c.Muted_Color__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Survey_Theme__c.Error_Color__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Survey_Theme__c.Border_Radius__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Survey_Theme__c.Font_Family__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field
+    >Survey_Theme__c.Show_Progress_Bar__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Survey_Theme__c.Logo_Height__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
 
-    <fieldPermissions><field>Answer_Option__c.Order__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
-    <fieldPermissions><field>Answer_Option__c.Next_Question__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
-    <fieldPermissions><field>Answer_Option__c.Allows_Free_Text__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
-    <fieldPermissions><field>Answer_Option__c.Free_Text_Regex__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
-    <fieldPermissions><field>Answer_Option__c.Free_Text_Error_Message__c</field><readable>true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Question__c.Question_Text__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Question__c.Order__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Question__c.Is_Required__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Question__c.Validation_Regex__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field
+    >Question__c.Validation_Error_Message__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Question__c.Placeholder__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field
+    >Question__c.Default_Next_Question__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Question__c.Editor_X__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Question__c.Editor_Y__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
 
-    <fieldPermissions><field>Survey_Response__c.Completed_Date__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
-    <fieldPermissions><field>Survey_Response__c.Submitted_By__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
-    <fieldPermissions><field>Survey_Response__c.Account__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
-    <fieldPermissions><field>Survey_Response__c.Contact__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Answer_Option__c.Order__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field>Answer_Option__c.Next_Question__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field
+    >Answer_Option__c.Allows_Free_Text__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field
+    >Answer_Option__c.Free_Text_Regex__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
+    <fieldPermissions><field
+    >Answer_Option__c.Free_Text_Error_Message__c</field><readable
+    >true</readable><editable>false</editable></fieldPermissions>
 
-    <fieldPermissions><field>Question_Response__c.Question__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
-    <fieldPermissions><field>Question_Response__c.Selected_Option__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
-    <fieldPermissions><field>Question_Response__c.Free_Text_Value__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
-    <fieldPermissions><field>Question_Response__c.Question_Text_Snapshot__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
-    <fieldPermissions><field>Question_Response__c.Answer_Text_Snapshot__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
-    <fieldPermissions><field>Question_Response__c.Survey_Name_Snapshot__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
-    <fieldPermissions><field>Question_Response__c.Survey_Version_Snapshot__c</field><readable>true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field
+    >Survey_Response__c.Completed_Date__c</field><readable
+    >true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Survey_Response__c.Submitted_By__c</field><readable
+    >true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Survey_Response__c.Account__c</field><readable
+    >true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field>Survey_Response__c.Contact__c</field><readable
+    >true</readable><editable>true</editable></fieldPermissions>
+
+    <fieldPermissions><field>Question_Response__c.Question__c</field><readable
+    >true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field
+    >Question_Response__c.Selected_Option__c</field><readable
+    >true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field
+    >Question_Response__c.Free_Text_Value__c</field><readable
+    >true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field
+    >Question_Response__c.Question_Text_Snapshot__c</field><readable
+    >true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field
+    >Question_Response__c.Answer_Text_Snapshot__c</field><readable
+    >true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field
+    >Question_Response__c.Survey_Name_Snapshot__c</field><readable
+    >true</readable><editable>true</editable></fieldPermissions>
+    <fieldPermissions><field
+    >Question_Response__c.Survey_Version_Snapshot__c</field><readable
+    >true</readable><editable>true</editable></fieldPermissions>
 </PermissionSet>

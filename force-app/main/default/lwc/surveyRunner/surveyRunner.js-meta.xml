@@ -1,26 +1,82 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>66.0</apiVersion>
     <isExposed>true</isExposed>
     <masterLabel>Survey Runner</masterLabel>
-    <description>Renders a conditional survey and submits the response in a single DML.</description>
+    <description
+  >Renders a conditional survey and submits the response in a single DML.</description>
     <targets>
         <target>lightning__AppPage</target>
         <target>lightning__RecordPage</target>
         <target>lightning__HomePage</target>
+        <target>lightning__FlowScreen</target>
     </targets>
     <targetConfigs>
-        <targetConfig targets="lightning__AppPage,lightning__RecordPage,lightning__HomePage">
+        <targetConfig
+      targets="lightning__AppPage,lightning__RecordPage,lightning__HomePage"
+    >
             <property
-                name="surveyName"
-                type="String"
-                label="Survey Name"
-                description="API name of the Survey__c record to render. Must be Active." />
+        name="surveyName"
+        type="String"
+        label="Survey Name"
+        description="API name of the Survey__c record to render. Must be Active."
+      />
             <property
-                name="entityMapping"
-                type="String"
-                label="Entity Mapping JSON"
-                description='JSON of {Survey_Response field API name -> record Id}, e.g. {"Account__c":"001..."}.' />
+        name="entityMapping"
+        type="String"
+        label="Entity Mapping JSON"
+        description='Advanced/manual JSON of {Survey_Response field API name -> record Id}, e.g. {"Account__c":"001..."}. Leave blank on a Record Page if you use Entity Mapping Field below; merged together if both are set.'
+      />
+            <property
+        name="entityMappingField"
+        type="String"
+        label="Entity Mapping Field"
+        description='On a Record Page only: API name of the Survey_Response__c lookup field to link automatically to the record being viewed, e.g. "Account__c" on an Account page. The record Id is picked up automatically — no need to type it.'
+      />
+        </targetConfig>
+        <targetConfig targets="lightning__FlowScreen">
+            <property
+        name="surveyName"
+        type="String"
+        label="Survey Name"
+        role="inputOnly"
+        description="API name of the Survey__c record to render. Must be Active."
+      />
+            <property
+        name="entityMapping"
+        type="String"
+        label="Entity Mapping JSON"
+        role="inputOnly"
+        description='Advanced/manual JSON of {Survey_Response field API name -> record Id}, e.g. {"Account__c":"001..."}. Leave blank if you use Entity Mapping Field + Record Id below; merged together if both are set.'
+      />
+            <property
+        name="entityMappingField"
+        type="String"
+        label="Entity Mapping Field"
+        role="inputOnly"
+        description='API name of the Survey_Response__c lookup field to link to Record Id below, e.g. "Account__c".'
+      />
+            <property
+        name="recordId"
+        type="String"
+        label="Record Id"
+        role="inputOnly"
+        description="Id to store in Entity Mapping Field. Bind it to a Flow variable (e.g. a recordId input variable populated when the flow is launched from a record) — Flow does not auto-inject this like Lightning App Builder does."
+      />
+            <property
+        name="isCompleted"
+        type="Boolean"
+        label="Is Completed"
+        role="outputOnly"
+        description="True once the respondent has submitted the survey. Read it after this screen to branch the flow."
+      />
+            <property
+        name="surveyResponseId"
+        type="String"
+        label="Survey Response Id"
+        role="outputOnly"
+        description="Id of the created Survey_Response__c record. Available after Is Completed becomes true."
+      />
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>

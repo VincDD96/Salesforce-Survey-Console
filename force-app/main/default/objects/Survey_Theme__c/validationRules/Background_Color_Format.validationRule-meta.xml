@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Background_Color_Format</fullName>
+    <active>true</active>
+    <description
+  >Background Color must be a hex color like #A1B2C3.</description>
+    <errorConditionFormula
+  >AND(NOT(ISBLANK(Background_Color__c)), NOT(REGEX(Background_Color__c, "#[0-9A-Fa-f]{6}")))</errorConditionFormula>
+    <errorDisplayField>Background_Color__c</errorDisplayField>
+    <errorMessage
+  >Inserire un colore esadecimale nel formato #RRGGBB (es. #0070D2).</errorMessage>
+</ValidationRule>

@@ -1,168 +1,172 @@
 <template>
-    <div class="survey-shell">
-        <template if:true={loading}>
-            <div class="survey-loading">
-                <lightning-spinner alternative-text="Caricamento..."></lightning-spinner>
+  <div class="survey-shell">
+    <template if:true={loading}>
+      <div class="survey-loading">
+        <lightning-spinner
+          alternative-text="Caricamento..."
+        ></lightning-spinner>
+      </div>
+    </template>
+
+    <template if:false={loading}>
+      <template if:true={fatalError}>
+        <div class="survey-fatal">
+          <p class="survey-error-text">{fatalError}</p>
+        </div>
+      </template>
+
+      <template if:false={fatalError}>
+        <template if:true={previewMode}>
+          <div class="survey-preview-banner">
+            Anteprima — le risposte non vengono salvate
+          </div>
+        </template>
+        <header class="survey-header">
+          <template if:true={logoUrl}>
+            <img src={logoUrl} class="survey-logo" alt="logo" />
+          </template>
+          <template if:true={title}>
+            <h1 class="survey-title">{title}</h1>
+          </template>
+          <template if:true={intro}>
+            <p class="survey-intro">{intro}</p>
+          </template>
+          <template if:true={showProgressBar}>
+            <div class="survey-progress">
+              <div class="survey-progress-fill" style={progressStyle}></div>
             </div>
+          </template>
+        </header>
+
+        <template if:true={isCompleted}>
+          <section class="survey-closing">
+            <p>{closingMessage}</p>
+          </section>
         </template>
 
-        <template if:false={loading}>
-            <template if:true={fatalError}>
-                <div class="survey-fatal">
-                    <p class="survey-error-text">{fatalError}</p>
-                </div>
-            </template>
+        <template if:false={isCompleted}>
+          <template if:true={questionView}>
+            <section class="survey-question">
+              <p class="survey-question-text">{questionView.text}</p>
 
-            <template if:false={fatalError}>
-                <header class="survey-header">
-                    <template if:true={logoUrl}>
-                        <img src={logoUrl} class="survey-logo" alt="logo" />
-                    </template>
-                    <template if:true={title}>
-                        <h1 class="survey-title">{title}</h1>
-                    </template>
-                    <template if:true={intro}>
-                        <p class="survey-intro">{intro}</p>
-                    </template>
-                    <template if:true={showProgressBar}>
-                        <div class="survey-progress">
-                            <div
-                                class="survey-progress-fill"
-                                style={progressStyle}
-                            ></div>
-                        </div>
-                    </template>
-                </header>
+              <template if:true={questionView.isSingleChoice}>
+                <ul class="survey-options">
+                  <template for:each={questionView.options} for:item="opt">
+                    <li key={opt.id} class="survey-option">
+                      <label class="survey-option-label">
+                        <input
+                          type="radio"
+                          name={opt.inputName}
+                          data-option-id={opt.id}
+                          checked={opt.checked}
+                          onchange={handleOptionToggle}
+                        />
+                        <span>{opt.text}</span>
+                      </label>
+                      <template if:true={opt.showFreeText}>
+                        <input
+                          type="text"
+                          class="survey-free-text"
+                          value={opt.optionFreeTextValue}
+                          onchange={handleFreeTextChange}
+                        />
+                      </template>
+                    </li>
+                  </template>
+                </ul>
+              </template>
 
-                <template if:true={isCompleted}>
-                    <section class="survey-closing">
-                        <p>{closingMessage}</p>
-                    </section>
-                </template>
+              <template if:true={questionView.isMultiChoice}>
+                <ul class="survey-options">
+                  <template for:each={questionView.options} for:item="opt">
+                    <li key={opt.id} class="survey-option">
+                      <label class="survey-option-label">
+                        <input
+                          type="checkbox"
+                          data-option-id={opt.id}
+                          checked={opt.checked}
+                          onchange={handleOptionToggle}
+                        />
+                        <span>{opt.text}</span>
+                      </label>
+                      <template if:true={opt.showFreeText}>
+                        <input
+                          type="text"
+                          class="survey-free-text"
+                          value={opt.optionFreeTextValue}
+                          onchange={handleFreeTextChange}
+                        />
+                      </template>
+                    </li>
+                  </template>
+                </ul>
+              </template>
 
-                <template if:false={isCompleted}>
-                    <template if:true={questionView}>
-                        <section class="survey-question">
-                            <p class="survey-question-text">{questionView.text}</p>
+              <template if:true={questionView.isFreeText}>
+                <textarea
+                  class="survey-free-text-area"
+                  placeholder={questionView.placeholder}
+                  value={questionView.freeTextValue}
+                  onchange={handleFreeTextChange}
+                ></textarea>
+              </template>
 
-                            <template if:true={questionView.isSingleChoice}>
-                                <ul class="survey-options">
-                                    <template for:each={questionView.options} for:item="opt">
-                                        <li key={opt.id} class="survey-option">
-                                            <label class="survey-option-label">
-                                                <input
-                                                    type="radio"
-                                                    name={opt.inputName}
-                                                    data-option-id={opt.id}
-                                                    checked={opt.checked}
-                                                    onchange={handleOptionToggle}
-                                                />
-                                                <span>{opt.text}</span>
-                                            </label>
-                                            <template if:true={opt.showFreeText}>
-                                                <input
-                                                    type="text"
-                                                    class="survey-free-text"
-                                                    value={opt.optionFreeTextValue}
-                                                    onchange={handleFreeTextChange}
-                                                />
-                                            </template>
-                                        </li>
-                                    </template>
-                                </ul>
-                            </template>
+              <template if:true={questionView.isScale}>
+                <input
+                  type="number"
+                  class="survey-free-text"
+                  placeholder={questionView.placeholder}
+                  value={questionView.freeTextValue}
+                  onchange={handleFreeTextChange}
+                />
+              </template>
 
-                            <template if:true={questionView.isMultiChoice}>
-                                <ul class="survey-options">
-                                    <template for:each={questionView.options} for:item="opt">
-                                        <li key={opt.id} class="survey-option">
-                                            <label class="survey-option-label">
-                                                <input
-                                                    type="checkbox"
-                                                    data-option-id={opt.id}
-                                                    checked={opt.checked}
-                                                    onchange={handleOptionToggle}
-                                                />
-                                                <span>{opt.text}</span>
-                                            </label>
-                                            <template if:true={opt.showFreeText}>
-                                                <input
-                                                    type="text"
-                                                    class="survey-free-text"
-                                                    value={opt.optionFreeTextValue}
-                                                    onchange={handleFreeTextChange}
-                                                />
-                                            </template>
-                                        </li>
-                                    </template>
-                                </ul>
-                            </template>
+              <template if:true={questionView.isDate}>
+                <input
+                  type="date"
+                  class="survey-free-text"
+                  value={questionView.freeTextValue}
+                  onchange={handleFreeTextChange}
+                />
+              </template>
 
-                            <template if:true={questionView.isFreeText}>
-                                <textarea
-                                    class="survey-free-text-area"
-                                    placeholder={questionView.placeholder}
-                                    value={questionView.freeTextValue}
-                                    onchange={handleFreeTextChange}
-                                ></textarea>
-                            </template>
+              <template if:true={validationError}>
+                <p class="survey-error-text">{validationError}</p>
+              </template>
+            </section>
 
-                            <template if:true={questionView.isScale}>
-                                <input
-                                    type="number"
-                                    class="survey-free-text"
-                                    placeholder={questionView.placeholder}
-                                    value={questionView.freeTextValue}
-                                    onchange={handleFreeTextChange}
-                                />
-                            </template>
-
-                            <template if:true={questionView.isDate}>
-                                <input
-                                    type="date"
-                                    class="survey-free-text"
-                                    value={questionView.freeTextValue}
-                                    onchange={handleFreeTextChange}
-                                />
-                            </template>
-
-                            <template if:true={validationError}>
-                                <p class="survey-error-text">{validationError}</p>
-                            </template>
-                        </section>
-
-                        <footer class="survey-footer">
-                            <button
-                                type="button"
-                                class="survey-btn survey-btn-secondary"
-                                disabled={cantGoBack}
-                                onclick={handleBack}
-                            >
-                                {backLabel}
-                            </button>
-                            <template if:true={isLastQuestion}>
-                                <button
-                                    type="button"
-                                    class="survey-btn survey-btn-primary"
-                                    disabled={isSubmitting}
-                                    onclick={handleSubmit}
-                                >
-                                    {submitLabel}
-                                </button>
-                            </template>
-                            <template if:false={isLastQuestion}>
-                                <button
-                                    type="button"
-                                    class="survey-btn survey-btn-primary"
-                                    onclick={handleNext}
-                                >
-                                    {nextLabel}
-                                </button>
-                            </template>
-                        </footer>
-                    </template>
-                </template>
-            </template>
+            <footer class="survey-footer">
+              <button
+                type="button"
+                class="survey-btn survey-btn-secondary"
+                disabled={cantGoBack}
+                onclick={handleBack}
+              >
+                {backLabel}
+              </button>
+              <template if:true={isLastQuestion}>
+                <button
+                  type="button"
+                  class="survey-btn survey-btn-primary"
+                  disabled={isSubmitting}
+                  onclick={handleSubmit}
+                >
+                  {submitLabel}
+                </button>
+              </template>
+              <template if:false={isLastQuestion}>
+                <button
+                  type="button"
+                  class="survey-btn survey-btn-primary"
+                  onclick={handleNext}
+                >
+                  {nextLabel}
+                </button>
+              </template>
+            </footer>
+          </template>
         </template>
-    </div>
+      </template>
+    </template>
+  </div>
 </template>

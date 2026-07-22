@@ -1,300 +1,315 @@
 :host {
-    display: block;
-    padding: 1rem;
-    background: #f4f6f9;
-    min-height: 600px;
+  display: block;
+  padding: 1rem;
+  background: #f4f6f9;
+  min-height: 600px;
 }
 
 .author-shell {
-    display: grid;
-    grid-template-columns: 1fr 380px;
-    gap: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 1rem;
 }
 
 .author-header {
-    grid-column: 1 / -1;
+  grid-column: 1 / -1;
 }
 
 .author-controls {
-    display: flex;
-    gap: 0.75rem;
-    align-items: end;
-    margin-top: 0.5rem;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 0.75rem;
+  align-items: end;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .author-controls > lightning-input,
 .author-controls > .survey-picker {
-    min-width: 320px;
+  min-width: 320px;
+}
+
+.new-survey-form {
+  display: flex;
+  gap: 0.75rem;
+  align-items: end;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: #f4f6f9;
+  border: 1px solid #d8dde6;
+  border-radius: 6px;
+}
+
+.new-survey-form lightning-input {
+  min-width: 320px;
 }
 
 .author-hint {
-    font-size: 0.85rem;
-    color: #54698d;
-    margin: 0.4rem 0 0 0;
+  font-size: 0.85rem;
+  color: #54698d;
+  margin: 0.4rem 0 0 0;
 }
 
 /* ---------------- Canvas ---------------- */
 
 .author-canvas-wrapper {
-    overflow: auto;
-    background: #ffffff;
-    background-image:
-        linear-gradient(#eef2f6 1px, transparent 1px),
-        linear-gradient(90deg, #eef2f6 1px, transparent 1px);
-    background-size: 20px 20px;
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
-    min-height: 560px;
-    grid-column: 1 / 2;
+  overflow: auto;
+  background: #ffffff;
+  background-image:
+    linear-gradient(#eef2f6 1px, transparent 1px),
+    linear-gradient(90deg, #eef2f6 1px, transparent 1px);
+  background-size: 20px 20px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  min-height: 560px;
+  grid-column: 1 / 2;
 }
 
 .author-canvas {
-    display: block;
+  display: block;
 }
 
 /* ---------------- Nodes ---------------- */
 
 .author-node {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .author-node .node-bg {
-    fill: #ffffff;
-    stroke: #c9c9c9;
-    stroke-width: 1.5;
-    transition: stroke 120ms ease;
+  fill: #ffffff;
+  stroke: #c9c9c9;
+  stroke-width: 1.5;
+  transition: stroke 120ms ease;
 }
 
 .author-node:hover .node-bg {
-    stroke: #0070d2;
-    stroke-width: 2;
+  stroke: #0070d2;
+  stroke-width: 2;
 }
 
 .author-node.is-start .node-bg {
-    stroke: #2e844a;
-    stroke-width: 3;
+  stroke: #2e844a;
+  stroke-width: 3;
 }
 
 .author-node.is-cycle .node-bg {
-    stroke: #c23934;
-    stroke-width: 3;
+  stroke: #c23934;
+  stroke-width: 3;
 }
 
 .author-node.is-orphan .node-bg {
-    stroke: #c8a430;
-    stroke-dasharray: 5 3;
-    stroke-width: 2;
+  stroke: #c8a430;
+  stroke-dasharray: 5 3;
+  stroke-width: 2;
 }
 
 .author-node.is-selected .node-bg {
-    stroke: #0070d2;
-    stroke-width: 3;
+  stroke: #0070d2;
+  stroke-width: 3;
 }
 
 .node-title {
-    font-size: 13px;
-    font-weight: 600;
-    fill: #16325c;
-    pointer-events: none;
+  font-size: 13px;
+  font-weight: 600;
+  fill: #16325c;
+  pointer-events: none;
 }
 
 .node-type {
-    font-size: 10px;
-    fill: #54698d;
-    pointer-events: none;
+  font-size: 10px;
+  fill: #54698d;
+  pointer-events: none;
 }
 
 .node-divider {
-    stroke: #e0e0e0;
-    stroke-width: 1;
+  stroke: #e0e0e0;
+  stroke-width: 1;
 }
 
 /* ---------------- Rows on each node ---------------- */
 
 .row .row-label {
-    font-size: 12px;
-    fill: #1a1a1a;
-    pointer-events: none;
+  font-size: 12px;
+  fill: #1a1a1a;
+  pointer-events: none;
 }
 
 .row-option .row-port {
-    fill: #0070d2;
-    stroke: #ffffff;
-    stroke-width: 1.5;
-    cursor: crosshair;
+  fill: #0070d2;
+  stroke: #ffffff;
+  stroke-width: 1.5;
+  cursor: crosshair;
 }
 
 .row-default .row-port {
-    fill: #6b7280;
-    stroke: #ffffff;
-    stroke-width: 1.5;
-    cursor: crosshair;
+  fill: #6b7280;
+  stroke: #ffffff;
+  stroke-width: 1.5;
+  cursor: crosshair;
 }
 
 .row-default .row-label {
-    fill: #54698d;
-    font-style: italic;
+  fill: #54698d;
+  font-style: italic;
 }
 
 .row-terminal .row-port {
-    fill: #ffffff;
-    stroke: #c9c9c9;
-    cursor: crosshair;
+  fill: #ffffff;
+  stroke: #c9c9c9;
+  cursor: crosshair;
 }
 
 .row-terminal .row-label {
-    fill: #888888;
-    font-style: italic;
+  fill: #888888;
+  font-style: italic;
 }
 
 .row-port:hover {
-    stroke: #0070d2;
-    stroke-width: 3;
+  stroke: #0070d2;
+  stroke-width: 3;
 }
 
 .author-canvas {
-    user-select: none;
+  user-select: none;
 }
 
 /* ---------------- Edges ---------------- */
 
 .edge {
-    stroke-width: 1.6;
-    fill: none;
+  stroke-width: 1.6;
+  fill: none;
 }
 
 .edge-option {
-    stroke: #0070d2;
+  stroke: #0070d2;
 }
 
 .edge-default {
-    stroke: #6b7280;
-    stroke-dasharray: 5 3;
+  stroke: #6b7280;
+  stroke-dasharray: 5 3;
 }
 
 .edge-terminal {
-    stroke: transparent;
+  stroke: transparent;
 }
 
 .edge-label {
-    font-size: 11px;
-    fill: #16325c;
-    paint-order: stroke fill;
-    stroke: #ffffff;
-    stroke-width: 3px;
-    stroke-linejoin: round;
-    pointer-events: none;
+  font-size: 11px;
+  fill: #16325c;
+  paint-order: stroke fill;
+  stroke: #ffffff;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  pointer-events: none;
 }
 
 .edge-preview {
-    stroke: #0070d2;
-    stroke-width: 2;
-    stroke-dasharray: 4 4;
-    pointer-events: none;
+  stroke: #0070d2;
+  stroke-width: 2;
+  stroke-dasharray: 4 4;
+  pointer-events: none;
 }
 
 /* ---------------- Inspector ---------------- */
 
 .author-inspector {
-    grid-column: 2 / 3;
-    background: #fff;
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
-    padding: 1rem;
-    height: fit-content;
-    position: sticky;
-    top: 1rem;
-    max-height: calc(100vh - 2rem);
-    overflow-y: auto;
+  grid-column: 2 / 3;
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  padding: 1rem;
+  height: fit-content;
+  position: sticky;
+  top: 1rem;
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
 }
 
 .author-inspector > header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
 }
 
 .author-inspector h2 {
-    margin: 0;
-    font-size: 1.1rem;
+  margin: 0;
+  font-size: 1.1rem;
 }
 
 .inspector-actions {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .inspector-section {
-    border: 1px solid #e5e5e5;
-    border-radius: 6px;
-    padding: 0.75rem;
-    margin: 0 0 0.75rem 0;
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  padding: 0.75rem;
+  margin: 0 0 0.75rem 0;
 }
 
 .inspector-section > legend {
-    font-weight: 600;
-    color: #16325c;
-    padding: 0 0.4rem;
-    font-size: 0.9rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
+  font-weight: 600;
+  color: #16325c;
+  padding: 0 0.4rem;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .inspector-section > lightning-input,
 .inspector-section > lightning-textarea,
 .inspector-section > lightning-combobox {
-    display: block;
-    margin-bottom: 0.5rem;
+  display: block;
+  margin-bottom: 0.5rem;
 }
 
 /* ---------------- Option cards ---------------- */
 
 .option-card {
-    background: #f8fafc;
-    border: 1px solid #e3e9ef;
-    border-radius: 6px;
-    padding: 0.6rem;
-    margin-top: 0.5rem;
+  background: #f8fafc;
+  border: 1px solid #e3e9ef;
+  border-radius: 6px;
+  padding: 0.6rem;
+  margin-top: 0.5rem;
 }
 
 .option-card-head {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .option-card-head > lightning-input {
-    flex: 1;
+  flex: 1;
 }
 
 .option-card-row {
-    display: grid;
-    grid-template-columns: 80px 1fr;
-    gap: 0.5rem;
-    margin: 0.4rem 0;
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 0.5rem;
+  margin: 0.4rem 0;
 }
 
 /* ---------------- Validation banner ---------------- */
 
 .validation-block {
-    grid-column: 1 / -1;
-    padding: 0.75rem 1rem;
-    border-radius: 6px;
-    border: 1px solid;
+  grid-column: 1 / -1;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  border: 1px solid;
 }
 
 .validation-ok {
-    background: #e7f5ec;
-    border-color: #2e844a;
-    color: #1a3d22;
+  background: #e7f5ec;
+  border-color: #2e844a;
+  color: #1a3d22;
 }
 
 .validation-bad {
-    background: #fce8e6;
-    border-color: #c23934;
-    color: #611712;
+  background: #fce8e6;
+  border-color: #c23934;
+  color: #611712;
 }

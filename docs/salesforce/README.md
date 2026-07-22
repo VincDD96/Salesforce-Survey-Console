@@ -2,19 +2,19 @@
 
 Documentazione generata automaticamente dal codice sorgente del repository (Salesforce DX, `force-app/main/default/`, API 66.0), integrata con il documento di design `docs/design.md`.
 
-**Generata il**: 2026-07-21 · **revisionata il**: 2026-07-21 con le risposte agli open item · repository non inizializzato su git (nessun riferimento a commit).
+**Generata il**: 2026-07-21 · **revisionata il**: 2026-07-21 con le risposte agli open item · **aggiornata il**: 2026-07-21 dopo l'implementazione di R13 (theming su oggetto + editor experience) e R14 (export CSV pivotato delle risposte) · repository non inizializzato su git (nessun riferimento a commit).
 
 ## Indice
 
-| Documento | Contenuto |
-| --- | --- |
-| [01 — Panoramica del progetto](01-overview.md) | Cos'è il componente Survey, inventario metadati, struttura del repo, attori, limiti tecnici, scostamenti dal design, toolchain |
-| [02 — Modello dati](02-data-model.md) | ERD, i 5 oggetti custom campo per campo, decisioni di modellazione, semantica di navigazione del grafo |
-| [03 — Sicurezza e sharing](03-security-sharing.md) | OWD e decisioni prese al riguardo, i 2 permission set, sicurezza a livello di codice, punti d'attenzione |
-| [04 — Automazioni](04-automation.md) | Inventario (vuoto per scelta), mappa di dove vive la logica di processo, decisioni prese |
-| [05 — Apex, LWC e UI](05-apex-components.md) | SurveyService/SurveyController/test, surveyRunner, surveyAuthor, temi, app/pagine/tab |
-| [06 — Integrazioni](06-integrations.md) | Catalogo integrazioni (nessuna); CRM Analytics confermato out of scope |
-| [**07 — Roadmap**](07-roadmap.md) | **13 interventi approvati** (R1–R12 confermati il 2026-07-21; R3 raffinato con flag di configurazione sul Survey; R13 nuovo: oggetto di configurazione estetica + theme editor point-and-click) e punti da rivalutare |
+| Documento                                          | Contenuto                                                                                                                                                                                                                                                                      |
+| -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [01 — Panoramica del progetto](01-overview.md)     | Cos'è il componente Survey, inventario metadati, struttura del repo, attori, limiti tecnici, scostamenti dal design, toolchain                                                                                                                                                 |
+| [02 — Modello dati](02-data-model.md)              | ERD, i 5 oggetti custom campo per campo, decisioni di modellazione, semantica di navigazione del grafo                                                                                                                                                                         |
+| [03 — Sicurezza e sharing](03-security-sharing.md) | OWD e decisioni prese al riguardo, i 2 permission set, sicurezza a livello di codice, punti d'attenzione                                                                                                                                                                       |
+| [04 — Automazioni](04-automation.md)               | Inventario (vuoto per scelta), mappa di dove vive la logica di processo, decisioni prese                                                                                                                                                                                       |
+| [05 — Apex, LWC e UI](05-apex-components.md)       | SurveyService/SurveyController/test, surveyRunner, surveyAuthor, temi, app/pagine/tab                                                                                                                                                                                          |
+| [06 — Integrazioni](06-integrations.md)            | Catalogo integrazioni (nessuna); CRM Analytics confermato out of scope                                                                                                                                                                                                         |
+| [**07 — Roadmap**](07-roadmap.md)                  | **14 interventi** (R1–R12 approvati il 2026-07-21; R3 raffinato con flag di configurazione sul Survey). **R13 completato**: oggetto `Survey_Theme__c` + editor experience con anteprima live. **R14 completato**: export CSV pivotato delle risposte, riservato a Survey Admin |
 
 ## Stato degli open item
 

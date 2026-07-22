@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Font_Family__c</fullName>
+    <description
+  >CSS font-family stack for the survey (token: --survey-font), e.g. 'Georgia', serif. Empty = component default.</description>
+    <externalId>false</externalId>
+    <label>Font Family</label>
+    <length>255</length>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,215 @@
+<template>
+  <div class="editor-shell">
+    <header class="editor-toolbar">
+      <div class="toolbar-picker">
+        <lightning-record-picker
+          label="Survey"
+          placeholder="Cerca un survey..."
+          object-api-name="Survey__c"
+          matching-info={surveyPickerMatchingInfo}
+          display-info={surveyPickerDisplayInfo}
+          value={surveyId}
+          onchange={handleSurveyPickerChange}
+        ></lightning-record-picker>
+      </div>
+      <template if:true={saving}>
+        <span class="saving-hint">Salvataggio…</span>
+      </template>
+    </header>
+
+    <template if:false={hasSurvey}>
+      <p class="editor-empty">
+        Seleziona un survey per configurarne l'esperienza.
+      </p>
+    </template>
+
+    <template if:true={hasSurvey}>
+      <div class="editor-body">
+        <aside class="editor-panel">
+          <!-- ============ Tema ============ -->
+          <section class="panel-section">
+            <h2 class="panel-title">Tema</h2>
+
+            <div class="theme-assign">
+              <lightning-record-picker
+                label="Tema assegnato"
+                placeholder="Cerca un tema..."
+                object-api-name="Survey_Theme__c"
+                matching-info={themePickerMatchingInfo}
+                display-info={themePickerDisplayInfo}
+                value={themeId}
+                onchange={handleThemePickerChange}
+              ></lightning-record-picker>
+              <lightning-button
+                label="Nuovo tema"
+                onclick={handleNewThemeToggle}
+              ></lightning-button>
+            </div>
+
+            <template if:true={showNewThemeForm}>
+              <div class="new-theme-form">
+                <lightning-input
+                  type="text"
+                  label="Nome del nuovo tema"
+                  value={newThemeName}
+                  onchange={handleNewThemeNameChange}
+                  onkeyup={handleNewThemeKeyUp}
+                ></lightning-input>
+                <lightning-button
+                  label="Crea"
+                  variant="brand"
+                  onclick={handleCreateTheme}
+                ></lightning-button>
+                <lightning-button
+                  label="Annulla"
+                  onclick={handleNewThemeToggle}
+                ></lightning-button>
+              </div>
+            </template>
+
+            <template if:true={sharedThemeWarning}>
+              <p class="hint hint-warn">{sharedThemeWarning}</p>
+            </template>
+
+            <template if:true={hasTheme}>
+              <div class="color-grid">
+                <template for:each={colorRows} for:item="row">
+                  <div key={row.field} class="color-row">
+                    <span class="color-label">{row.label}</span>
+                    <input
+                      type="color"
+                      class="color-input"
+                      data-field={row.field}
+                      value={row.pickerValue}
+                      oninput={handleColorInput}
+                      title={row.value}
+                    />
+                    <template if:true={row.hasValue}>
+                      <span class="color-hex">{row.value}</span>
+                      <button
+                        type="button"
+                        class="color-clear"
+                        data-field={row.field}
+                        title="Rimuovi (usa il default)"
+                        onclick={handleColorClear}
+                      >
+                        ✕
+                      </button>
+                    </template>
+                    <template if:false={row.hasValue}>
+                      <span class="color-hex color-hex-empty">default</span>
+                    </template>
+                  </div>
+                </template>
+              </div>
+
+              <div class="field-row">
+                <lightning-input
+                  type="number"
+                  label="Border radius (px)"
+                  value={borderRadius}
+                  onchange={handleRadiusChange}
+                ></lightning-input>
+                <lightning-input
+                  type="text"
+                  label="Font family (CSS)"
+                  value={fontFamily}
+                  onchange={handleFontChange}
+                ></lightning-input>
+              </div>
+              <lightning-input
+                type="toggle"
+                label="Progress bar"
+                checked={showProgressBar}
+                onchange={handleProgressBarToggle}
+              ></lightning-input>
+
+              <div class="logo-block">
+                <template if:true={logoUrl}>
+                  <img
+                    src={logoUrl}
+                    class="logo-preview"
+                    style={logoPreviewStyle}
+                    alt="logo del tema"
+                  />
+                </template>
+                <lightning-file-upload
+                  label="Logo"
+                  record-id={themeId}
+                  accept={logoAcceptedFormats}
+                  onuploadfinished={handleLogoUploaded}
+                ></lightning-file-upload>
+                <lightning-input
+                  type="number"
+                  label="Altezza logo (px)"
+                  value={logoHeight}
+                  placeholder="60"
+                  min="10"
+                  max="400"
+                  onchange={handleLogoHeightChange}
+                ></lightning-input>
+              </div>
+            </template>
+          </section>
+
+          <!-- ============ Testi (per-survey) ============ -->
+          <section class="panel-section">
+            <h2 class="panel-title">Testi del survey</h2>
+            <lightning-input
+              type="text"
+              label="Titolo"
+              placeholder={texts.titlePlaceholder}
+              value={texts.displayTitle}
+              data-field="Display_Title__c"
+              onchange={handleTextChange}
+            ></lightning-input>
+            <lightning-textarea
+              label="Testo introduttivo"
+              placeholder={texts.introPlaceholder}
+              value={texts.introText}
+              data-field="Intro_Text__c"
+              onchange={handleTextChange}
+            ></lightning-textarea>
+            <lightning-textarea
+              label="Messaggio di chiusura"
+              value={texts.closingMessage}
+              data-field="Closing_Message__c"
+              onchange={handleTextChange}
+            ></lightning-textarea>
+            <div class="field-row field-row-3">
+              <lightning-input
+                type="text"
+                label="Bottone Avanti"
+                placeholder="Avanti"
+                value={texts.nextLabel}
+                data-field="Next_Label__c"
+                onchange={handleTextChange}
+              ></lightning-input>
+              <lightning-input
+                type="text"
+                label="Bottone Indietro"
+                placeholder="Indietro"
+                value={texts.backLabel}
+                data-field="Back_Label__c"
+                onchange={handleTextChange}
+              ></lightning-input>
+              <lightning-input
+                type="text"
+                label="Bottone Invia"
+                placeholder="Invia"
+                value={texts.submitLabel}
+                data-field="Submit_Label__c"
+                onchange={handleTextChange}
+              ></lightning-input>
+            </div>
+          </section>
+        </aside>
+
+        <!-- ============ Anteprima live ============ -->
+        <main class="editor-preview">
+          <c-survey-runner survey-id={surveyId} preview-mode></c-survey-runner>
+        </main>
+      </div>
+    </template>
+  </div>
+</template>

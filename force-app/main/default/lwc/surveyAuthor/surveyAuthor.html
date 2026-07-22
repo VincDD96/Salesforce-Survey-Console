@@ -1,334 +1,362 @@
 <template>
-    <div class="author-shell">
-        <header class="author-header">
-            <h1>Survey Author</h1>
-            <div class="author-controls">
-                <lightning-record-picker
-                    class="survey-picker"
-                    label="Survey"
-                    placeholder="Cerca un survey per nome..."
-                    object-api-name="Survey__c"
-                    matching-info={pickerMatchingInfo}
-                    display-info={pickerDisplayInfo}
-                    value={surveyId}
-                    onchange={handleSurveyPickerChange}
-                ></lightning-record-picker>
-                <lightning-button
-                    label="Reload"
-                    onclick={handleRefresh}
-                    disabled={validationRunning}
-                ></lightning-button>
-                <lightning-button
-                    label="Validate Graph"
-                    variant="brand"
-                    onclick={handleValidate}
-                    disabled={validationRunning}
-                ></lightning-button>
-                <lightning-button
-                    label="+ Question"
-                    variant="success"
-                    onclick={handleAddQuestion}
-                    disabled={validationRunning}
-                ></lightning-button>
-                <lightning-input
-                    type="toggle"
-                    label={autoLayoutLabel}
-                    message-toggle-active="ON"
-                    message-toggle-inactive="OFF"
-                    checked={autoLayout}
-                    onchange={handleAutoLayoutToggle}
-                ></lightning-input>
-            </div>
-            <p class="author-hint">
-                Auto-layout OFF → trascina i nodi col mouse. Trascina dal puntino di
-                un'opzione verso un altro nodo per impostare Next Question.
-            </p>
+  <div class="author-shell">
+    <header class="author-header">
+      <h1>Survey Author</h1>
+      <div class="author-controls">
+        <lightning-record-picker
+          class="survey-picker"
+          label="Survey"
+          placeholder="Cerca un survey per nome..."
+          object-api-name="Survey__c"
+          matching-info={pickerMatchingInfo}
+          display-info={pickerDisplayInfo}
+          value={surveyId}
+          onchange={handleSurveyPickerChange}
+        ></lightning-record-picker>
+        <lightning-button
+          label="Nuovo survey"
+          onclick={handleNewSurveyToggle}
+        ></lightning-button>
+        <lightning-button
+          label="Reload"
+          onclick={handleRefresh}
+          disabled={validationRunning}
+        ></lightning-button>
+        <lightning-button
+          label="Validate Graph"
+          variant="brand"
+          onclick={handleValidate}
+          disabled={validationRunning}
+        ></lightning-button>
+        <lightning-button
+          label="+ Question"
+          variant="success"
+          onclick={handleAddQuestion}
+          disabled={validationRunning}
+        ></lightning-button>
+        <lightning-button
+          label="Esporta risposte"
+          onclick={handleExportResponses}
+          disabled={exportDisabled}
+        ></lightning-button>
+        <lightning-input
+          type="toggle"
+          label={autoLayoutLabel}
+          message-toggle-active="ON"
+          message-toggle-inactive="OFF"
+          checked={autoLayout}
+          onchange={handleAutoLayoutToggle}
+        ></lightning-input>
+      </div>
+      <template if:true={showNewSurveyForm}>
+        <div class="new-survey-form">
+          <lightning-input
+            type="text"
+            label="Nome del nuovo survey"
+            value={newSurveyName}
+            onchange={handleNewSurveyNameChange}
+            onkeyup={handleNewSurveyKeyUp}
+          ></lightning-input>
+          <lightning-button
+            label="Crea"
+            variant="brand"
+            onclick={handleCreateSurvey}
+          ></lightning-button>
+          <lightning-button
+            label="Annulla"
+            onclick={handleNewSurveyToggle}
+          ></lightning-button>
+        </div>
+      </template>
+      <p class="author-hint">
+        Auto-layout OFF → trascina i nodi col mouse. Trascina dal puntino di
+        un'opzione verso un altro nodo per impostare Next Question.
+      </p>
+    </header>
+
+    <template if:true={validation}>
+      <section class={validationBlockClass}>
+        <template if:true={validation.isValid}>
+          <p>Graph is valid.</p>
+        </template>
+        <template if:false={validation.isValid}>
+          <p><strong>Validation failed:</strong></p>
+          <ul>
+            <template for:each={validation.errors} for:item="err">
+              <li key={err}>{err}</li>
+            </template>
+          </ul>
+        </template>
+      </section>
+    </template>
+
+    <template if:true={hasSurvey}>
+      <div class="author-canvas-wrapper">
+        <svg
+          class="author-canvas"
+          style={canvasStyle}
+          viewBox={layout.viewBox}
+          preserveAspectRatio="xMinYMin meet"
+          onmousemove={handleSvgMouseMove}
+          onmouseup={handleSvgMouseUp}
+          onmouseleave={handleSvgMouseLeave}
+        >
+          <!-- Edges first so they sit behind nodes -->
+          <template for:each={layout.edges} for:item="e">
+            <g key={e.key}>
+              <path d={e.d} class={e.cssClass} fill="none"></path>
+              <circle cx={e.tipX} cy={e.tipY} r="4" class={e.cssClass}></circle>
+              <template if:true={e.hasLabel}>
+                <text
+                  x={e.labelX}
+                  y={e.labelY}
+                  class="edge-label"
+                  text-anchor="middle"
+                >
+                  {e.label}
+                </text>
+              </template>
+            </g>
+          </template>
+
+          <!-- Preview line during a connection drag -->
+          <template if:true={previewLine}>
+            <line
+              x1={previewLine.x1}
+              y1={previewLine.y1}
+              x2={previewLine.x2}
+              y2={previewLine.y2}
+              class="edge-preview"
+            ></line>
+          </template>
+
+          <!-- Nodes -->
+          <template for:each={layout.nodes} for:item="n">
+            <g
+              key={n.id}
+              class={n.cssClass}
+              data-question-id={n.id}
+              onmousedown={handleNodeMouseDown}
+              onclick={handleNodeClick}
+            >
+              <rect
+                x={n.x}
+                y={n.y}
+                width={n.w}
+                height={n.h}
+                rx="8"
+                ry="8"
+                class="node-bg"
+              ></rect>
+              <text class="node-title">
+                <template for:each={n.titleLines} for:item="line">
+                  <tspan key={line.key} x={line.x} y={line.y}>
+                    {line.text}
+                  </tspan>
+                </template>
+              </text>
+              <text x={n.typeX} y={n.typeY} class="node-type" text-anchor="end">
+                {n.type}
+              </text>
+              <line
+                x1={n.separatorX1}
+                y1={n.separatorY}
+                x2={n.separatorX2}
+                y2={n.separatorY}
+                class="node-divider"
+              ></line>
+              <template for:each={n.rows} for:item="row">
+                <g key={row.key} class={row.cssClass}>
+                  <text x={row.labelX} y={row.labelY} class="row-label">
+                    {row.label}
+                  </text>
+                  <circle
+                    cx={row.portX}
+                    cy={row.portY}
+                    r="5"
+                    class="row-port"
+                    data-question-id={row.questionId}
+                    data-row-key={row.key}
+                    data-row-kind={row.kind}
+                    onmousedown={handlePortMouseDown}
+                  ></circle>
+                </g>
+              </template>
+            </g>
+          </template>
+        </svg>
+      </div>
+    </template>
+
+    <template if:true={inspectorQuestionView}>
+      <aside class="author-inspector">
+        <header>
+          <h2>Edit question</h2>
+          <lightning-button-icon
+            icon-name="utility:close"
+            onclick={handleCloseInspector}
+          ></lightning-button-icon>
         </header>
 
-        <template if:true={validation}>
-            <section class={validationBlockClass}>
-                <template if:true={validation.isValid}>
-                    <p>Graph is valid.</p>
-                </template>
-                <template if:false={validation.isValid}>
-                    <p><strong>Validation failed:</strong></p>
-                    <ul>
-                        <template for:each={validation.errors} for:item="err">
-                            <li key={err}>{err}</li>
-                        </template>
-                    </ul>
-                </template>
-            </section>
-        </template>
+        <div class="inspector-actions">
+          <lightning-button
+            label="Set as Start"
+            onclick={handleSetAsStart}
+            variant="neutral"
+          ></lightning-button>
+          <lightning-button
+            label="Delete question"
+            onclick={handleDeleteQuestion}
+            variant="destructive"
+          ></lightning-button>
+        </div>
 
-        <template if:true={hasSurvey}>
-            <div class="author-canvas-wrapper">
-                <svg
-                    class="author-canvas"
-                    style={canvasStyle}
-                    viewBox={layout.viewBox}
-                    preserveAspectRatio="xMinYMin meet"
-                    onmousemove={handleSvgMouseMove}
-                    onmouseup={handleSvgMouseUp}
-                    onmouseleave={handleSvgMouseLeave}
-                >
-                    <!-- Edges first so they sit behind nodes -->
-                    <template for:each={layout.edges} for:item="e">
-                        <g key={e.key}>
-                            <path d={e.d} class={e.cssClass} fill="none"></path>
-                            <circle cx={e.tipX} cy={e.tipY} r="4" class={e.cssClass}></circle>
-                            <template if:true={e.hasLabel}>
-                                <text
-                                    x={e.labelX}
-                                    y={e.labelY}
-                                    class="edge-label"
-                                    text-anchor="middle"
-                                >{e.label}</text>
-                            </template>
-                        </g>
-                    </template>
+        <fieldset class="inspector-section">
+          <legend>Domanda</legend>
 
-                    <!-- Preview line during a connection drag -->
-                    <template if:true={previewLine}>
-                        <line
-                            x1={previewLine.x1}
-                            y1={previewLine.y1}
-                            x2={previewLine.x2}
-                            y2={previewLine.y2}
-                            class="edge-preview"
-                        ></line>
-                    </template>
+          <lightning-textarea
+            label="Question Text"
+            data-field="Question_Text__c"
+            value={inspectorQuestionView.text}
+            onchange={handleQuestionFieldChange}
+          ></lightning-textarea>
 
-                    <!-- Nodes -->
-                    <template for:each={layout.nodes} for:item="n">
-                        <g
-                            key={n.id}
-                            class={n.cssClass}
-                            data-question-id={n.id}
-                            onmousedown={handleNodeMouseDown}
-                            onclick={handleNodeClick}
-                        >
-                            <rect
-                                x={n.x}
-                                y={n.y}
-                                width={n.w}
-                                height={n.h}
-                                rx="8"
-                                ry="8"
-                                class="node-bg"
-                            ></rect>
-                            <text class="node-title">
-                                <template for:each={n.titleLines} for:item="line">
-                                    <tspan key={line.key} x={line.x} y={line.y}>{line.text}</tspan>
-                                </template>
-                            </text>
-                            <text
-                                x={n.typeX}
-                                y={n.typeY}
-                                class="node-type"
-                                text-anchor="end"
-                            >{n.type}</text>
-                            <line
-                                x1={n.separatorX1}
-                                y1={n.separatorY}
-                                x2={n.separatorX2}
-                                y2={n.separatorY}
-                                class="node-divider"
-                            ></line>
-                            <template for:each={n.rows} for:item="row">
-                                <g key={row.key} class={row.cssClass}>
-                                    <text
-                                        x={row.labelX}
-                                        y={row.labelY}
-                                        class="row-label"
-                                    >{row.label}</text>
-                                    <circle
-                                        cx={row.portX}
-                                        cy={row.portY}
-                                        r="5"
-                                        class="row-port"
-                                        data-question-id={row.questionId}
-                                        data-row-key={row.key}
-                                        data-row-kind={row.kind}
-                                        onmousedown={handlePortMouseDown}
-                                    ></circle>
-                                </g>
-                            </template>
-                        </g>
-                    </template>
-                </svg>
+          <lightning-combobox
+            label="Type"
+            data-field="Type__c"
+            value={inspectorQuestionView.type}
+            options={typeOptions}
+            onchange={handleQuestionFieldChange}
+          ></lightning-combobox>
+
+          <lightning-input
+            type="number"
+            label="Order"
+            data-field="Order__c"
+            value={inspectorQuestionView.orderHint}
+            onchange={handleQuestionFieldChange}
+          ></lightning-input>
+
+          <lightning-input
+            type="checkbox"
+            label="Required"
+            data-field="Is_Required__c"
+            checked={inspectorQuestionView.isRequired}
+            onchange={handleQuestionFieldChange}
+          ></lightning-input>
+
+          <lightning-input
+            type="text"
+            label="Placeholder"
+            data-field="Placeholder__c"
+            value={inspectorQuestionView.placeholder}
+            onchange={handleQuestionFieldChange}
+          ></lightning-input>
+
+          <lightning-input
+            type="text"
+            label="Validation Regex"
+            data-field="Validation_Regex__c"
+            value={inspectorQuestionView.validationRegex}
+            onchange={handleQuestionFieldChange}
+          ></lightning-input>
+
+          <lightning-input
+            type="text"
+            label="Validation Error Message"
+            data-field="Validation_Error_Message__c"
+            value={inspectorQuestionView.validationErrorMessage}
+            onchange={handleQuestionFieldChange}
+          ></lightning-input>
+
+          <lightning-combobox
+            label="Default Next Question"
+            value={inspectorQuestionView.defaultNextQuestionId}
+            options={inspectorQuestionView.defaultNextOptions}
+            onchange={handleQuestionDefaultNextChange}
+          ></lightning-combobox>
+        </fieldset>
+
+        <fieldset class="inspector-section">
+          <legend>
+            Answer options
+            <lightning-button-icon
+              icon-name="utility:add"
+              onclick={handleAddOption}
+              alternative-text="Aggiungi opzione"
+              variant="brand"
+              size="small"
+            ></lightning-button-icon>
+          </legend>
+
+          <template for:each={inspectorQuestionView.options} for:item="opt">
+            <div key={opt.id} class="option-card">
+              <div class="option-card-head">
+                <lightning-input
+                  type="text"
+                  variant="label-hidden"
+                  placeholder="Option text"
+                  data-option-id={opt.id}
+                  data-field="Option_Text__c"
+                  value={opt.text}
+                  onchange={handleOptionFieldChange}
+                ></lightning-input>
+                <lightning-button-icon
+                  icon-name="utility:delete"
+                  variant="border-filled"
+                  size="small"
+                  data-option-id={opt.id}
+                  onclick={handleDeleteOption}
+                  alternative-text="Elimina opzione"
+                ></lightning-button-icon>
+              </div>
+              <div class="option-card-row">
+                <lightning-input
+                  type="number"
+                  label="Order"
+                  data-option-id={opt.id}
+                  data-field="Order__c"
+                  value={opt.orderHint}
+                  onchange={handleOptionFieldChange}
+                ></lightning-input>
+                <lightning-combobox
+                  label="Next Question"
+                  data-option-id={opt.id}
+                  value={opt.nextQuestionId}
+                  options={opt.nextOptions}
+                  onchange={handleOptionNextChange}
+                ></lightning-combobox>
+              </div>
+              <lightning-input
+                type="checkbox"
+                label='Allows free text ("Other:___")'
+                data-option-id={opt.id}
+                data-field="Allows_Free_Text__c"
+                checked={opt.allowsFreeText}
+                onchange={handleOptionFieldChange}
+              ></lightning-input>
+              <template if:true={opt.allowsFreeText}>
+                <lightning-input
+                  type="text"
+                  label="Free Text Regex"
+                  data-option-id={opt.id}
+                  data-field="Free_Text_Regex__c"
+                  value={opt.freeTextRegex}
+                  onchange={handleOptionFieldChange}
+                ></lightning-input>
+                <lightning-input
+                  type="text"
+                  label="Free Text Error Message"
+                  data-option-id={opt.id}
+                  data-field="Free_Text_Error_Message__c"
+                  value={opt.freeTextErrorMessage}
+                  onchange={handleOptionFieldChange}
+                ></lightning-input>
+              </template>
             </div>
-        </template>
-
-        <template if:true={inspectorQuestionView}>
-            <aside class="author-inspector">
-                <header>
-                    <h2>Edit question</h2>
-                    <lightning-button-icon
-                        icon-name="utility:close"
-                        onclick={handleCloseInspector}
-                    ></lightning-button-icon>
-                </header>
-
-                <div class="inspector-actions">
-                    <lightning-button
-                        label="Set as Start"
-                        onclick={handleSetAsStart}
-                        variant="neutral"
-                    ></lightning-button>
-                    <lightning-button
-                        label="Delete question"
-                        onclick={handleDeleteQuestion}
-                        variant="destructive"
-                    ></lightning-button>
-                </div>
-
-                <fieldset class="inspector-section">
-                    <legend>Domanda</legend>
-
-                    <lightning-textarea
-                        label="Question Text"
-                        data-field="Question_Text__c"
-                        value={inspectorQuestionView.text}
-                        onchange={handleQuestionFieldChange}
-                    ></lightning-textarea>
-
-                    <lightning-combobox
-                        label="Type"
-                        data-field="Type__c"
-                        value={inspectorQuestionView.type}
-                        options={typeOptions}
-                        onchange={handleQuestionFieldChange}
-                    ></lightning-combobox>
-
-                    <lightning-input
-                        type="number"
-                        label="Order"
-                        data-field="Order__c"
-                        value={inspectorQuestionView.orderHint}
-                        onchange={handleQuestionFieldChange}
-                    ></lightning-input>
-
-                    <lightning-input
-                        type="checkbox"
-                        label="Required"
-                        data-field="Is_Required__c"
-                        checked={inspectorQuestionView.isRequired}
-                        onchange={handleQuestionFieldChange}
-                    ></lightning-input>
-
-                    <lightning-input
-                        type="text"
-                        label="Placeholder"
-                        data-field="Placeholder__c"
-                        value={inspectorQuestionView.placeholder}
-                        onchange={handleQuestionFieldChange}
-                    ></lightning-input>
-
-                    <lightning-input
-                        type="text"
-                        label="Validation Regex"
-                        data-field="Validation_Regex__c"
-                        value={inspectorQuestionView.validationRegex}
-                        onchange={handleQuestionFieldChange}
-                    ></lightning-input>
-
-                    <lightning-input
-                        type="text"
-                        label="Validation Error Message"
-                        data-field="Validation_Error_Message__c"
-                        value={inspectorQuestionView.validationErrorMessage}
-                        onchange={handleQuestionFieldChange}
-                    ></lightning-input>
-
-                    <lightning-combobox
-                        label="Default Next Question"
-                        value={inspectorQuestionView.defaultNextQuestionId}
-                        options={inspectorQuestionView.defaultNextOptions}
-                        onchange={handleQuestionDefaultNextChange}
-                    ></lightning-combobox>
-                </fieldset>
-
-                <fieldset class="inspector-section">
-                    <legend>
-                        Answer options
-                        <lightning-button-icon
-                            icon-name="utility:add"
-                            onclick={handleAddOption}
-                            alternative-text="Aggiungi opzione"
-                            variant="brand"
-                            size="small"
-                        ></lightning-button-icon>
-                    </legend>
-
-                    <template for:each={inspectorQuestionView.options} for:item="opt">
-                        <div key={opt.id} class="option-card">
-                            <div class="option-card-head">
-                                <lightning-input
-                                    type="text"
-                                    variant="label-hidden"
-                                    placeholder="Option text"
-                                    data-option-id={opt.id}
-                                    data-field="Option_Text__c"
-                                    value={opt.text}
-                                    onchange={handleOptionFieldChange}
-                                ></lightning-input>
-                                <lightning-button-icon
-                                    icon-name="utility:delete"
-                                    variant="border-filled"
-                                    size="small"
-                                    data-option-id={opt.id}
-                                    onclick={handleDeleteOption}
-                                    alternative-text="Elimina opzione"
-                                ></lightning-button-icon>
-                            </div>
-                            <div class="option-card-row">
-                                <lightning-input
-                                    type="number"
-                                    label="Order"
-                                    data-option-id={opt.id}
-                                    data-field="Order__c"
-                                    value={opt.orderHint}
-                                    onchange={handleOptionFieldChange}
-                                ></lightning-input>
-                                <lightning-combobox
-                                    label="Next Question"
-                                    data-option-id={opt.id}
-                                    value={opt.nextQuestionId}
-                                    options={opt.nextOptions}
-                                    onchange={handleOptionNextChange}
-                                ></lightning-combobox>
-                            </div>
-                            <lightning-input
-                                type="checkbox"
-                                label='Allows free text ("Other:___")'
-                                data-option-id={opt.id}
-                                data-field="Allows_Free_Text__c"
-                                checked={opt.allowsFreeText}
-                                onchange={handleOptionFieldChange}
-                            ></lightning-input>
-                            <template if:true={opt.allowsFreeText}>
-                                <lightning-input
-                                    type="text"
-                                    label="Free Text Regex"
-                                    data-option-id={opt.id}
-                                    data-field="Free_Text_Regex__c"
-                                    value={opt.freeTextRegex}
-                                    onchange={handleOptionFieldChange}
-                                ></lightning-input>
-                                <lightning-input
-                                    type="text"
-                                    label="Free Text Error Message"
-                                    data-option-id={opt.id}
-                                    data-field="Free_Text_Error_Message__c"
-                                    value={opt.freeTextErrorMessage}
-                                    onchange={handleOptionFieldChange}
-                                ></lightning-input>
-                            </template>
-                        </div>
-                    </template>
-                </fieldset>
-            </aside>
-        </template>
-    </div>
+          </template>
+        </fieldset>
+      </aside>
+    </template>
+  </div>
 </template>
